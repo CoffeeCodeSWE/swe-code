@@ -7,12 +7,13 @@
     "ms-vscode.powershell",
     "ban.spellright",
     "Gruntfuggly.todo-tree",
-    "esbenp.prettier-vscode"
-    "techer.open-in-browser"
-    "ritwickdey.liveserver"
-    "tht13.html-preview-vscode"
-    "mikemcbride.electron-highlighter"
-    "waderyan.nodejs-extension-pack"
-	"gamunu.vscode-yarn"
+    "esbenp.prettier-vscode",
+    "techer.open-in-browser",
+    "ritwickdey.liveserver",
+    "tht13.html-preview-vscode",
+    "mikemcbride.electron-highlighter",
+    "waderyan.nodejs-extension-pack",
+    "gamunu.vscode-yarn",
+    "vector-of-bool.gitflow"
   ]
 }
