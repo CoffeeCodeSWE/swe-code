@@ -13,6 +13,7 @@
     "tht13.html-preview-vscode"
     "mikemcbride.electron-highlighter"
     "waderyan.nodejs-extension-pack"
-	"gamunu.vscode-yarn"
+    "gamunu.vscode-yarn"
+    "vector-of-bool.gitflow"
   ]
 }
