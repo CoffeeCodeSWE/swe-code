@@ -9,7 +9,6 @@ function handleCSVFile(path) {
       alert('error');
     } else {
       let csv_mat = Papa.parse(data.toString()).data;
-      console.log(csv_mat);
       let json_data = {};
       for (let i = 0; i < csv_mat[0].length; i++) {
         let key = csv_mat[0][i];
