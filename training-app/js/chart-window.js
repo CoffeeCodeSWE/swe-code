@@ -1,4 +1,4 @@
 const { BrowserWindow } = require('electron');
 
-class ChartWindow extends BrowserWindow {
+module.exports = class ChartWindow extends BrowserWindow {
 }
