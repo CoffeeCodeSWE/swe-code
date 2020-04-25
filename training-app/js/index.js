@@ -2,12 +2,11 @@ const fs = require('fs');
 const Papa = require('papaparse');
 const { ipcRenderer } = require('electron');
 
-function fromCSVtoJSON(path) {
+function handleCSVFile(path) {
 
   fs.readFile(path, (err, data) => {
     if(err) {
       alert('error');
-      return null;
     } else {
       let csv_mat = Papa.parse(data.toString()).data;
       console.log(csv_mat);
@@ -20,7 +19,7 @@ function fromCSVtoJSON(path) {
         }
       }
 
-      return json_data;
+      ipcRenderer.send('request-chart:update', json_data);
     }
 
 
@@ -32,7 +31,6 @@ let file_input = document.getElementById('cvs-file');
 file_input.addEventListener('change', () => {
 
   let path = file_input.files[0].path;
-  let json_data = fromCSVtoJSON(path);
+  handleCSVFile(path);
 
-  ipcRenderer.send('request-chart:update', json_data);
 });
