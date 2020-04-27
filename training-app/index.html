@@ -5,9 +5,32 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
   <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
   <title>Main</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
-<input type="file" id="cvs-file">
+
+<div class="container">
+  <h2>Training app</h2>
+  <form>
+    <div class="form-group">
+      <label for="csv-file">CSV data file: </label>
+      <input type="file" class="form-control-file" id="csv-file">
+    </div>
+
+    <label for="select-vars" hidden>Select vars: </label>
+    <div class="form-group" id="select-vars" hidden>
+
+    </div>
+    <div class="form-group">
+      <label for="select-target" hidden>Select target:</label>
+
+      <select class="custom-select" id="select-target" hidden>
+
+      </select>
+    </div>
+  </form>
+</div>
+
 <script src="js/index.js"></script>
 </body>
 </html>
