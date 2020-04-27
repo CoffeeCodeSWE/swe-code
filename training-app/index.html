@@ -16,18 +16,37 @@
       <label for="csv-file">CSV data file: </label>
       <input type="file" class="form-control-file" id="csv-file">
     </div>
+    <div id="content" hidden>
+      <label for="div-model">Model: </label>
+      <div class="form-group" id="div-model">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="model" type="radio" id="rl" value="rl" checked>
+          <label class="form-check-label" for="rl">RL</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="model" type="radio" id="svm" value="svm">
+          <label class="form-check-label" for="svm">SVM</label>
+        </div>
+      </div>
+      <label for="select-vars">Select vars: </label>
+      <div class="form-group" id="select-vars">
 
-    <label for="select-vars" hidden>Select vars: </label>
-    <div class="form-group" id="select-vars" hidden>
+      </div>
+      <div class="form-group">
+        <label for="select-target">Select target:</label>
+        <select class="custom-select" id="select-target">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes: </label>
+        <textarea class="form-control" id="notes"></textarea>
+      </div>
 
+      <div class="form-group">
+        <input type="submit" class="btn btn-outline-primary" value="Submit">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="select-target" hidden>Select target:</label>
 
-      <select class="custom-select" id="select-target" hidden>
-
-      </select>
-    </div>
   </form>
 </div>
 

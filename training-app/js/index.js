@@ -50,14 +50,12 @@ function convertCSV(data) {
 }
 
 function initInput(data) {
-  $('label').removeAttr('hidden');
+  $('#content').removeAttr('hidden');
 
   let select_vars = $('#select-vars');
   select_vars.html('');
-  select_vars.removeAttr('hidden');
   let select_target = $('#select-target');
   select_target.html('<option hidden disabled selected value> -- select an option --</option>');
-  select_target.removeAttr('hidden');
 
   Object.keys(data).forEach((k) => {
     let div_elem = $('<div></div>', {class: 'form-check'});
