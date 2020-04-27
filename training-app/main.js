@@ -1,5 +1,4 @@
-
-const { app, BrowserWindow, ipcMain } = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const MainWindow = require('./js/main-window');
 const ChartWindow = require('./js/chart-window');
 
@@ -11,16 +10,17 @@ function main() {
 }
 
 ipcMain.on('request-chart:update', (event, data) => {
-  if(chartWindow === null) {
+  if (chartWindow === null) {
     chartWindow = new ChartWindow();
+    chartWindow.on('close', () => chartWindow = null);
     chartWindow.webContents.once('did-finish-load', () => {
       chartWindow.webContents.send('chart:update', data);
 
     });
+  } else {
+    chartWindow.webContents.send('chart:update', data);
   }
 
-  else
-    chartWindow.webContents.send('chart:update', data);
 });
 
 app.whenReady().then(main);
