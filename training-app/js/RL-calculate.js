@@ -1,0 +1,1 @@
+const Regression = require('../vendor/regression');
