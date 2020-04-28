@@ -7,12 +7,19 @@ let chartWindow = null;
 
 function main() {
   mainWindow = new MainWindow();
+  mainWindow.on('close', () => {
+    app.exit();
+  });
 }
 
 ipcMain.on('request-chart:update', (event, data) => {
   if (chartWindow === null) {
     chartWindow = new ChartWindow();
-    chartWindow.on('close', () => chartWindow = null);
+    chartWindow.on('close', () => {
+      chartWindow = null;
+      mainWindow.webContents.send('chart:closed');
+
+    });
     chartWindow.webContents.once('did-finish-load', () => {
       chartWindow.webContents.send('chart:update', data);
 
@@ -20,6 +27,7 @@ ipcMain.on('request-chart:update', (event, data) => {
   } else {
     chartWindow.webContents.send('chart:update', data);
   }
+
 
 });
 

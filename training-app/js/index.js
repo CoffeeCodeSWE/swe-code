@@ -3,7 +3,7 @@ const Papa = require('papaparse');
 const {ipcRenderer} = require('electron');
 const $ = require('jquery');
 require('popper.js');
-let json_data = null;
+let unpacked_data = null;
 
 $(document).ready(() => {
   let file_input = $('#csv-file');
@@ -11,6 +11,7 @@ $(document).ready(() => {
     let path = e.target.files[0].path;
     handleCSVFile(path);
   });
+
   $('#select-target').on('change', () => {
     $('input').show();
     $('label').show();
@@ -20,7 +21,48 @@ $(document).ready(() => {
 
   });
 
+  $('#training-form').submit((e) => {
+    e.preventDefault();
+    let selected_target = $('#select-target').val();
+    let rl_data = {};
+    let selected_vars = [];
+
+    $('input:checkbox:checked').each((e, item) =>{ selected_vars.push(item.id); });
+    rl_data.variables = {};
+    Object.keys(unpacked_data).forEach((k) => {
+      if(selected_vars.includes(k) && k !== selected_target) {
+        rl_data.variables[k] = unpacked_data[k];
+      }
+    });
+
+    rl_data.target = {};
+    rl_data.target[selected_target] = unpacked_data[selected_target];
+
+
+    let model = $('input:radio').val();
+
+    if(model.toLowerCase() === 'rl') {
+      ipcRenderer.send('model:rl', rl_data);
+    } else {
+      alert('NOT IMPLEMENTED');
+    }
+  });
+
+  let open_btt = $('#open-chart');
+
+  open_btt.hide();
+
+  open_btt.click((e) => {
+    e.preventDefault();
+    open_btt.hide();
+    ipcRenderer.send('request-chart:update', unpacked_data);
+  });
+  ipcRenderer.on('chart:closed', () => {
+    open_btt.show();
+  });
 });
+
+
 
 function handleCSVFile(path) {
   fs.readFile(path, (err, data) => {
@@ -35,7 +77,7 @@ function handleCSVFile(path) {
       ipcRenderer.send('request-chart:update', ordered_data);
 
       initInput(ordered_data);
-      json_data= ordered_data;
+      unpacked_data = ordered_data;
     }
   });
 }
@@ -63,7 +105,7 @@ function initInput(data) {
   select_target.html('<option hidden disabled selected value> -- select an option --</option>');
 
   Object.keys(data).forEach((k) => {
-    addVarCheckbox(k, select_vars)
+    addVarCheckbox(k, select_vars);
 
     let option_elem = $('<option></option>', {text: k, value: k});
     select_target.append(option_elem);
@@ -71,7 +113,7 @@ function initInput(data) {
 }
 function addVarCheckbox(key, select_vars) {
   let div_elem = $('<div></div>', {class: 'form-check'});
-  let input_elem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input', value: 'check'});
+  let input_elem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'/*, checked: 'checked'*/});
   let labelElem = $('<label></label>', {text: key});
   div_elem.append(input_elem);
   div_elem.append(labelElem);
