@@ -1,6 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const MainWindow = require('./js/main-window');
 const ChartWindow = require('./js/chart-window');
+const {rlFromScratch} = require('./js/RL-calculate');
 
 let mainWindow = null;
 let chartWindow = null;
@@ -44,4 +45,12 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     main();
   }
+});
+
+ipcMain.on('model:rl', (event, data) => {
+  console.log(data);
+  let reg = rlFromScratch(data);
+  console.log(reg);
+//calcolare reg lineare dato data(il file json in entrata)
+//sputare fuori l'output in una variabile
 });

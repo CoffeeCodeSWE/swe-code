@@ -1,14 +1,14 @@
 'use strict';
-
 const Regression = require('../vendor/regression');
 const fs = require('fs');
 const path = require('path');
 
+/*
 function readJson() {
   let jsPath = path.resolve(__dirname, '../js-examples/1-input-RL.json');
   let rawdata = fs.readFileSync(jsPath);
   return JSON.parse(rawdata);
-}
+} */
 
 function calculateMatrixDimensions(data) {
   let aux = data.variables;
@@ -33,8 +33,8 @@ function libAdaptation(data, matrix, reg) {
   return reg;
 }
 
-function rlFromScratch() {
-  let data = readJson();
+module.exports.rlFromScratch = function rlFromScratch(data) {
+  console.log(data);
   let matrix = calculateMatrixDimensions(data);
   var reg = new Regression({numX: matrix.columns , numY: 1});
   return libAdaptation(data, matrix, reg);
@@ -57,8 +57,7 @@ function writeJson(reg) {
   }
 
   let obj = {'tuple' : tuple , 'coefficents' : coefficents, 'intercept' : intercept};
-  obj = JSON.stringify(obj);
-  fs.writeFileSync('file.json', obj);
+  return JSON.stringify(obj);
 }
 
 function readOutJson() {
