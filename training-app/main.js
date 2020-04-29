@@ -76,6 +76,7 @@ ipcMain.on('model:rl', (event, data) => {
   dialog.showSaveDialog().then((filename) => {
     if(filename === undefined) {
       console.log('error');
+      return;
     }
     fs.writeFile(filename.filePath, final_data, (err) => {
       if(err) {
