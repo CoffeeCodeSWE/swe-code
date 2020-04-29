@@ -10,10 +10,6 @@ function readJson() {
   return JSON.parse(rawdata);
 }
 
-function readOutJson() {
-  let jsPath = path.resolve(__dirname, '')
-}
-
 function calculateMatrixDimensions(data) {
   let aux = data.variables;
   let columns = Object.keys(aux).length;
@@ -45,7 +41,7 @@ function rlFromScratch() {
 }
 
 function writeJson(reg) {
-  let tuple = (Object.keys(reg).length) - 1;
+  let tuple = (Object.keys(reg).length);
   let intercept = reg[0];
 
   let aux = readJson().variables;
@@ -65,7 +61,38 @@ function writeJson(reg) {
   fs.writeFileSync('file.json', obj);
 }
 
+function readOutJson() {
+  let jsPath = path.resolve(__dirname, '../../file.json');
+  let rawdata = fs.readFileSync(jsPath);
+  let data = JSON.parse(rawdata);
+  return {'tuple' : data.tuple , 'coefficienti' : data.coefficents};
+}
 
+/* calcolo RL da dati già esistenti
+function rlFromExistingData() {
+  let newData = readJson();
+  let matrix = calculateMatrixDimensions(newData);
+  var reg = new Regression({ numX: matrix.columns, numY: 1 });
 
-var reg = rlFromScratch();
-writeJson(reg.calculateCoefficients());
+  let oldData = readOutJson();
+  let oldValues = []; //array contenente i valori della vecchia rl (quindi file di output)
+  oldValues.push(1);
+  //riempimento oldValues
+  for(let i = 0; i < matrix.columns-1; ++i) {
+    oldValues.push(oldData.coefficienti[Object.keys(oldData.coefficienti)[i]][0]);
+  }
+
+  for(let i = 1; i < oldData.tuple ; ++i) {
+    reg.push();
+  }
+
+  reg.push({ x: oldValues, y: oldData.intercept });
+  return libAdaptation(newData, matrix, reg);
+}
+
+*/
+
+/* TODO:
+ * - estensione del calcolo della rl
+ * - gestione delle eccezioni
+*/
