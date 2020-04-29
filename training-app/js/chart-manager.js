@@ -1,5 +1,5 @@
-const {ipcRenderer} = require('electron');
-const {Chart} = require('chart.js');
+const { ipcRenderer } = require('electron');
+const { Chart } = require('chart.js');
 const $ = require('jquery');
 let json_data = null;
 let chart = null;
@@ -25,8 +25,8 @@ ipcRenderer.on('chart:update', (event, args) => {
 
     let auto_sel_index = 0;
     keys.forEach((k) => {
-      let xsel = $('<option></option>', {text: k, value: k});
-      let ysel = $('<option></option>', {text: k, value: k});
+      let xsel = $('<option></option>', { text: k, value: k });
+      let ysel = $('<option></option>', { text: k, value: k });
 
       if (auto_sel_index === 0)
         xsel.attr('selected', true);
@@ -68,7 +68,7 @@ function initChart(x, y, xLabel, yLabel) {
   }
 
   let ctx = document.getElementById('data-chart').getContext('2d');
-  Chart.defaults.scale.gridLines.drawOnChartArea = true;
+  Chart.defaults.scale.gridLines.drawOnChartArea = false;
   Chart.defaults.global.legend.display = false;
 
   chart = new Chart(ctx, {
