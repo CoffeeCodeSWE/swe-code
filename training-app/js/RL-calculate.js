@@ -34,7 +34,7 @@ function libAdaptation(data, matrix, reg) {
 }
 
 module.exports.rlFromScratch = function rlFromScratch(data) {
-  console.log(data);
+
   let matrix = calculateMatrixDimensions(data);
   var reg = new Regression({numX: matrix.columns , numY: 1});
   return libAdaptation(data, matrix, reg);

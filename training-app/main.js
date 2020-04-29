@@ -50,7 +50,8 @@ app.on('activate', () => {
 ipcMain.on('model:rl', (event, data) => {
   console.log(data);
   let reg = rlFromScratch(data);
-  console.log(reg);
+  let coefficients = reg.calculateCoefficients();
+  console.log(coefficients);
 //calcolare reg lineare dato data(il file json in entrata)
 //sputare fuori l'output in una variabile
 });
