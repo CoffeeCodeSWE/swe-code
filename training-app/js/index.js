@@ -27,7 +27,7 @@ $(document).ready(() => {
     let rl_data = {};
     let selected_vars = [];
 
-    $('input:checkbox:checked').each((e, item) =>{ selected_vars.push(item.id); });
+    $('input:checkbox:checked').each((ev, item) =>{ selected_vars.push(item.id); });
     rl_data.variables = {};
     Object.keys(unpacked_data).forEach((k) => {
       if(selected_vars.includes(k) && k !== selected_target) {
