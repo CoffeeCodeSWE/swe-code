@@ -1,8 +1,10 @@
-const { BrowserWindow } = require('electron');
+const {BrowserWindow} = require('electron');
 
 module.exports = class MainWindow extends BrowserWindow {
   constructor() {
     super({
+      width: 580,
+      height: 800,
       webPreferences: {
         nodeIntegration: true
       }
