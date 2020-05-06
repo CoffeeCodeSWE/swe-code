@@ -4,12 +4,28 @@ const {ipcRenderer} = require('electron');
 const $ = require('jquery');
 require('popper.js');
 let unpackedData = null;
+let oldData = null;
 
 $(document).ready(() => {
   let fileInput = $('#csv-file');
+  let predInput = $('#pred-file');
+  let predCheck = $('#have-pred');
   fileInput.change((e) => {
     let path = e.target.files[0].path;
     handleCSVFile(path);
+  });
+  predCheck.change(() => {
+    predCheck.prop('checked') ? predInput.removeAttr('hidden') : predInput.attr('hidden', 'hidden');
+  });
+  predInput.change((e) => {
+    fs.readFile(e.target.files[0].path, (err, data) => {
+      let predJson = JSON.parse(data);
+      oldData = {};
+      $('#notes').val(predJson.notes);
+      oldData.creators = predJson.creators;
+      oldData.timestamps = predJson.timestamps;
+
+    });
   });
 
   $('#select-target').on('change', () => {
@@ -44,7 +60,7 @@ $(document).ready(() => {
     let model = $('input:radio').val();
 
     if (model.toLowerCase() === 'rl') {
-      ipcRenderer.send('model:rl', [rlData, notes]);
+      ipcRenderer.send('model:rl', [rlData, notes, oldData]);
     } else {
       alert('NOT IMPLEMENTED');
     }
@@ -67,6 +83,8 @@ $(document).ready(() => {
 
 function handleCSVFile(path) {
   fs.readFile(path, (err, data) => {
+    let openBtt = $('#open-chart');
+    openBtt.hide();
     if (err) {
       console.log('error');
     } else {

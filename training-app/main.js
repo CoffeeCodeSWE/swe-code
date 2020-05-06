@@ -1,5 +1,6 @@
 const {app, BrowserWindow, ipcMain, dialog} = require('electron');
-const fs  = require('fs');
+const fs = require('fs');
+const helper = require('./js/helper');
 const MainWindow = require('./js/main-window');
 const ChartWindow = require('./js/chart-window');
 const {rlFromScratch} = require('./js/RL-calculate');
@@ -51,41 +52,33 @@ app.on('activate', () => {
 ipcMain.on('model:rl', (event, args) => {
   let data = args[0];
   let notes = args[1];
+  let oldData = args[2];
+
   let reg = rlFromScratch(data);
   let coefficients = reg.calculateCoefficients();
 
-  let keys = Object.keys(data.variables);
 
-  let output = {};
-  let predictor = {};
-  predictor.tuples = data.variables[keys[0]].length;
-  predictor.coefficents = {};
-  let i = 1;
-  keys.forEach((k) => {
-    predictor.coefficents[k] = coefficients[i][0];
-    i++;
-  });
-  predictor.intercept = coefficients[0][0];
-  predictor.target = data.target;
+  let output = helper.generateRLOutput(data, coefficients);
+  helper.addMeta(output, notes, oldData);
 
-  output.type = 'RL';
-  output.predictor = predictor;
-  output.notes = notes;
-  let final_data = (JSON.stringify(output));
-  //calcolare reg lineare dato data(il file json in entrata)
-  //sputare fuori l'output in una variabile
+  let finalData = (JSON.stringify(output));
 
+  save(finalData);
+});
+
+function save(finalData) {
   dialog.showSaveDialog().then((filename) => {
-    if(filename === undefined) {
+    if (filename === undefined) {
       console.log('error');
       return;
     }
-    fs.writeFile(filename.filePath, final_data, (err) => {
-      if(err) {
+    fs.writeFile(filename.filePath, finalData, (err) => {
+      if (err) {
         console.log(err);
       } else {
         console.log('OK');
       }
     });
   });
-});
+
+}
