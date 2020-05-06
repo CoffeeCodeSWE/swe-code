@@ -19,6 +19,7 @@ $(document).ready(() => {
   });
   predInput.change((e) => {
     fs.readFile(e.target.files[0].path, (err, data) => {
+      data = data.replace(/\r?\n|\r/g, '\n');
       let predJson = JSON.parse(data);
       oldData = {};
       $('#notes').val(predJson.notes);

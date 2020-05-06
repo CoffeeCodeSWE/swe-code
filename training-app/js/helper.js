@@ -14,7 +14,7 @@ module.exports.generateRLOutput = function (data, coefficients) {
     i++;
   });
   predictor.intercept = coefficients[0][0];
-  predictor.target = data.target;
+  predictor.target = Object.keys(data.target)[0];
 
   output.type = 'RL';
   output.predictor = predictor;
@@ -33,7 +33,7 @@ module.exports.addMeta = function (output, notes, oldData) {
     output.creators = [];
     output.timestamps = [];
   }
-  
+
   output.creators.push(os.userInfo().username);
   output.timestamps.push(new Date().getTime());
 
