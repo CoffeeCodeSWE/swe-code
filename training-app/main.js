@@ -21,17 +21,12 @@ ipcMain.on('request-chart:update', (event, data) => {
     chartWindow.on('close', () => {
       chartWindow = null;
       mainWindow.webContents.send('chart:closed');
-
     });
-    chartWindow.webContents.once('did-finish-load', () => {
-      chartWindow.webContents.send('chart:update', data);
-
-    });
-  } else {
-    chartWindow.webContents.send('chart:update', data);
   }
+  chartWindow.webContents.once('did-finish-load', () => {
+    chartWindow.webContents.send('chart:update', data);
 
-
+  });
 });
 
 app.whenReady().then(main);

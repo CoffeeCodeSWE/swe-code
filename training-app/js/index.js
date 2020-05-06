@@ -84,25 +84,21 @@ $(document).ready(() => {
 
 function handleCSVFile(path) {
   fs.readFile(path, (err, data) => {
-    let openBtt = $('#open-chart');
-    openBtt.hide();
+    $('#open-chart').hide();
     if (err) {
       console.log('error');
     } else {
-      let jsonData = convertCSV(data);
-      const orderedData = {};
-      Object.keys(jsonData).sort().forEach(function (key) {
-        orderedData[key] = jsonData[key];
-      });
-      ipcRenderer.send('request-chart:update', orderedData);
+      let jsonData = convertCSVtoJSON(data);
 
-      initInput(orderedData);
-      unpackedData = orderedData;
+      ipcRenderer.send('request-chart:update', jsonData);
+
+      updateFormFields(jsonData);
+      unpackedData = jsonData;
     }
   });
 }
 
-function convertCSV(data) {
+function convertCSVtoJSON(data) {
 
   let csvMat = Papa.parse(data.toString()).data;
   let jsonData = {};
@@ -113,10 +109,14 @@ function convertCSV(data) {
       jsonData[key].push(csvMat[k][i]);
     }
   }
-  return jsonData;
+  const orderedData = {};
+  Object.keys(jsonData).sort().forEach(function (key) {
+    orderedData[key] = jsonData[key];
+  });
+  return orderedData;
 }
 
-function initInput(data) {
+function updateFormFields(data) {
   $('#content').removeAttr('hidden');
 
   let selectVars = $('#select-vars');
