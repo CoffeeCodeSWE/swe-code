@@ -10,5 +10,6 @@ module.exports = class MainWindow extends BrowserWindow {
       }
     });
     this.loadFile(__dirname + '/../index.html');
+    this.setPosition(1000,100);
   }
 };

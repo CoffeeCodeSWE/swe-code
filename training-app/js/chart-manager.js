@@ -1,48 +1,48 @@
 const { ipcRenderer } = require('electron');
 const { Chart } = require('chart.js');
 const $ = require('jquery');
-let json_data = null;
+let jsonData = null;
 let chart = null;
 
 $(document).ready(() => {
 
-  let y_select = $('#y-select');
-  let x_select = $('#x-select');
+  let ySelect = $('#y-select');
+  let xSelect = $('#x-select');
 
-  y_select.on('change', () => getParamAndUpdate());
-  x_select.on('change', () => getParamAndUpdate());
+  ySelect.on('change', () => getParamAndUpdate());
+  xSelect.on('change', () => getParamAndUpdate());
 });
 ipcRenderer.on('chart:update', (event, args) => {
   $(document).ready(() => {
-    json_data = args;
+    jsonData = args;
 
-    let keys = Object.keys(json_data);
+    let keys = Object.keys(jsonData);
 
-    let y_select = $('#y-select');
-    let x_select = $('#x-select');
-    x_select.html('');
-    y_select.html('');
+    let ySelect = $('#y-select');
+    let xSelect = $('#x-select');
+    xSelect.html('');
+    ySelect.html('');
 
-    let auto_sel_index = 0;
+    let autoSelIndex = 0;
     keys.forEach((k) => {
-      let xsel = $('<option></option>', { text: k, value: k });
+      let xSel = $('<option></option>', { text: k, value: k });
       let ysel = $('<option></option>', { text: k, value: k });
 
-      if (auto_sel_index === 0)
-        xsel.attr('selected', true);
-      else if (auto_sel_index === 1)
+      if (autoSelIndex === 0)
+        xSel.attr('selected', true);
+      else if (autoSelIndex === 1)
         ysel.attr('selected', true);
 
-      x_select.append(xsel);
-      y_select.append(ysel);
-      auto_sel_index++;
+      xSelect.append(xSel);
+      ySelect.append(ysel);
+      autoSelIndex++;
     });
 
     let xLabel = keys[0];
-    let x = json_data[xLabel];
+    let x = jsonData[xLabel];
 
     let yLabel = keys[1];
-    let y = json_data[yLabel];
+    let y = jsonData[yLabel];
 
     initChart(x, y, xLabel, yLabel);
   });
@@ -118,7 +118,7 @@ function initChart(x, y, xLabel, yLabel) {
 
 function getParamAndUpdate() {
 
-  let y_select = $('#y-select').val();
-  let x_select = $('#x-select').val();
-  initChart(json_data[x_select], json_data[y_select], x_select, y_select);
+  let ySelect = $('#y-select').val();
+  let xSelect = $('#x-select').val();
+  initChart(jsonData[xSelect], jsonData[ySelect], xSelect, ySelect);
 }
