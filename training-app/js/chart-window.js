@@ -9,5 +9,6 @@ module.exports = class ChartWindow extends BrowserWindow {
     });
 
     this.loadFile(__dirname + '/../chart.html');
+    this.setPosition(0,0);
   }
 };

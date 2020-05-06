@@ -48,8 +48,9 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('model:rl', (event, data) => {
-  console.log(data);
+ipcMain.on('model:rl', (event, args) => {
+  let data = args[0];
+  let notes = args[1];
   let reg = rlFromScratch(data);
   let coefficients = reg.calculateCoefficients();
 
@@ -69,6 +70,7 @@ ipcMain.on('model:rl', (event, data) => {
 
   output.type = 'RL';
   output.predictor = predictor;
+  output.notes = notes;
   let final_data = (JSON.stringify(output));
   //calcolare reg lineare dato data(il file json in entrata)
   //sputare fuori l'output in una variabile
