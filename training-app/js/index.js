@@ -40,37 +40,21 @@ $(document).ready(() => {
 
   $('#training-form').submit((e) => {
     e.preventDefault();
-    let selectedTarget = $('#select-target').val();
-    let rlData = {};
-    let selectedVars = [];
+
     let notes = $('#notes').val();
-    $('input:checkbox:checked').each((ev, item) => {
-      selectedVars.push(item.id);
-    });
-    rlData.variables = {};
-    Object.keys(unpackedData).forEach((k) => {
-      if (selectedVars.includes(k) && k !== selectedTarget) {
-        rlData.variables[k] = unpackedData[k];
-      }
-    });
-
-    rlData.target = {};
-    rlData.target[selectedTarget] = unpackedData[selectedTarget];
-
 
     let model = $('input:radio').val();
-
     if (model.toLowerCase() === 'rl') {
-      ipcRenderer.send('model:rl', [rlData, notes, oldData]);
+      ipcRenderer.send('model:rl', [getRLParams(), notes, oldData]);
     } else {
       alert('NOT IMPLEMENTED');
     }
+
   });
 
   let openBtt = $('#open-chart');
 
   openBtt.hide();
-
   openBtt.click((e) => {
     e.preventDefault();
     openBtt.hide();
@@ -79,8 +63,26 @@ $(document).ready(() => {
   ipcRenderer.on('chart:closed', () => {
     openBtt.show();
   });
-});
 
+});
+function getRLParams() {
+  let selectedTarget = $('#select-target').val();
+  let rlData = {};
+  let selectedVars = [];
+  $('input:checkbox:checked').each((ev, item) => {
+    selectedVars.push(item.id);
+  });
+  rlData.variables = {};
+  Object.keys(unpackedData).forEach((k) => {
+    if (selectedVars.includes(k) && k !== selectedTarget) {
+      rlData.variables[k] = unpackedData[k];
+    }
+  });
+
+  rlData.target = {};
+  rlData.target[selectedTarget] = unpackedData[selectedTarget];
+  return rlData;
+}
 
 function handleCSVFile(path) {
   fs.readFile(path, (err, data) => {
