@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <title>Main</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Training app</h2>
+  <form id="training-form">
+    <div class="form-group">
+      <label for="csv-file">CSV data file: </label>
+      <input type="file" class="form-control-file" id="csv-file">
+
+    </div>
+    <div class="form-group">
+      <button class="btn btn-outline-info" id="open-chart">Open chart</button>
+    </div>
+    <div id="content" hidden>
+      <div class="form-group">
+        <input type="checkbox" class="form-check-inline" id="have-pred"/>
+        <label for="have-pred" class="form-check-inline">Modify a predictor</label>
+        <input type="file" class="form-control-file" id="pred-file" hidden>
+      </div>
+      <label for="div-model">Model: </label>
+      <div class="form-group" id="div-model">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="model" type="radio" id="rl" value="rl" checked>
+          <label class="form-check-label" for="rl">RL</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="model" type="radio" id="svm" value="svm">
+          <label class="form-check-label" for="svm">SVM</label>
+        </div>
+      </div>
+      <label for="select-vars">Select predictors: </label>
+      <div class="form-group" id="select-vars">
+
+      </div>
+      <div class="form-group">
+        <label for="select-target">Select target:</label>
+        <select class="custom-select" id="select-target">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes: </label>
+        <textarea class="form-control" id="notes"></textarea>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" class="btn btn-lg btn-success" value="Submit">
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script src="js/index.js"></script>
+</body>
+</html>
