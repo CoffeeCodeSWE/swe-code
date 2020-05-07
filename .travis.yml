@@ -1,0 +1,14 @@
+distr: trusty
+git:
+  depth: false
+language: node_js
+node_js:
+- '12'
+addons:
+  sonarcloud:
+    organization: coffeecodeswe
+    token:
+      secure: 'mr9sx28IzNKmbbNnsoSkjlZzPqU49s+NmTl57Qw79IIvvkTjFKlcwZxLDlwsTNDuk5LrPJtbduLF8bB9w7WhFnQEzk77DkzdxqWnmJtetW4O3JB42vz7QGGlTQd+gYEiF7UJVy87Q/31bFUKOfvikoZzTHRC1LSh9QTFbHq7eg89oydBs4dyf22h/no1ODIHN6nv/TT0PAS93uPmzwU31hEuflje0Nsosz/yQ8PWrlAJVI71fE7OEkb5KCPSFPb/aLGraMbqseC0NisI7K4yMxqE0pclixTrWxU4ezxsCu4XQKzLYy7bQME0B2SLRXsDm0V3ZBKXvNyKk66LrTtn61eaqwZCVd/wl1XNbttQYzhbqZeBJ9i8V5T9+Q9kKJiKPIkMDcN4uKAI1G3kemLzWz5SKj6FtZuUZ9WSll+L1NIH2iaGtEOhhtAYDJnfdu4IYTn/eHHkGlKTl4Hlz9zKL4HpPSF8KIH59Uf2LaHCbvLp1p70IZbUsD93DQem+ZMaSn+5xTIFpx6G1txc8ADVtzk0npD9x+JI8Bv7YiKTbQ3baAk7KFzW9xs+/Sv8XOiEW7fks5HL9AZj3npc3HgJNUXPG1VRaBvzZJmT0jNqNNgrHwdsTZj/NOzz1NfLWXVqe5cPfCkQgdisdYAb7hPLhzafKA87DzHd154g144ZP68='
+script:
+- yarn install
+- sonar-scanner 
