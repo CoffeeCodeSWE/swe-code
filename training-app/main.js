@@ -56,7 +56,7 @@ ipcMain.on('model:rl', (event, args) => {
   let output = helper.generateRLOutput(data, coefficients);
   helper.addMeta(output, notes, oldData);
 
-  let finalData = (JSON.stringify(output));
+  let finalData = (JSON.stringify(output, null, 2));
 
   save(finalData);
 });
