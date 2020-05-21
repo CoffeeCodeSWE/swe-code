@@ -5,7 +5,6 @@ let jsonData = null;
 let chart = null;
 
 $(document).ready(() => {
-
   let ySelect = $('#y-select');
   let xSelect = $('#x-select');
 
@@ -28,10 +27,8 @@ ipcRenderer.on('chart:update', (event, args) => {
       let xSel = $('<option></option>', { text: k, value: k });
       let ysel = $('<option></option>', { text: k, value: k });
 
-      if (autoSelIndex === 0)
-        xSel.attr('selected', true);
-      else if (autoSelIndex === 1)
-        ysel.attr('selected', true);
+      if (autoSelIndex === 0) xSel.attr('selected', true);
+      else if (autoSelIndex === 1) ysel.attr('selected', true);
 
       xSelect.append(xSel);
       ySelect.append(ysel);
@@ -48,16 +45,15 @@ ipcRenderer.on('chart:update', (event, args) => {
   });
 });
 
-
 function initChart(x, y, xLabel, yLabel) {
   let dataPoints = [];
+  let colorPoints = createColorsArray(y);
   for (let i = 0; i < x.length; i++) {
     dataPoints.push({
       x: x[i],
-      y: y[i]
+      y: y[i],
     });
   }
-
 
   if (chart !== null) {
     chart.data.datasets[0].data = dataPoints;
@@ -78,7 +74,7 @@ function initChart(x, y, xLabel, yLabel) {
         {
           // label: "Scatter data",
           data: dataPoints,
-          backgroundColor: '#007fff',
+          backgroundColor: colorPoints,
         },
       ],
     },
@@ -87,7 +83,7 @@ function initChart(x, y, xLabel, yLabel) {
         xAxes: [
           {
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
             },
 
             scaleLabel: {
@@ -101,7 +97,7 @@ function initChart(x, y, xLabel, yLabel) {
         yAxes: [
           {
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
             },
             scaleLabel: {
               display: true,
@@ -112,13 +108,37 @@ function initChart(x, y, xLabel, yLabel) {
       },
     },
   });
-
 }
 
-
 function getParamAndUpdate() {
-
   let ySelect = $('#y-select').val();
   let xSelect = $('#x-select').val();
   initChart(jsonData[xSelect], jsonData[ySelect], xSelect, ySelect);
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function createColorsArray(target) {
+  let arrayOfColors = [];
+  let arrayUntilNow = [];
+
+  arrayOfColors.push(getRandomColor());
+
+  if (target.length > 1)
+    for (let i = 1; i < target.length; i++) {
+      arrayUntilNow = target.slice(0, i);
+      if (arrayUntilNow.includes(target[i]) === false) {
+        arrayOfColors.push(getRandomColor());
+      } else {
+        arrayOfColors.push(arrayOfColors[arrayUntilNow.indexOf(target[i])]);
+      }
+    }
+  return arrayOfColors;
 }
