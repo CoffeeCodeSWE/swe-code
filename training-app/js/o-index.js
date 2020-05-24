@@ -6,16 +6,12 @@ require('popper.js');
 let unpackedData = null;
 let oldData = null;
 
-const Controller = require('./js/Controller.js');
-const Model = require('./js/Model.js');
-const View = require('./js/View.js');
-
-
 $(document).ready(() => {
-  const app = new Controller(new Model(), new View());
-
-/*
+  let fileInput = $('#csv-file');
+  let predInput = $('#pred-file');
+  let predCheck = $('#have-pred');
   fileInput.change((e) => {
+    let path = e.target.files[0].path;
     handleCSVFile(path);
   });
   predCheck.change(() => {
@@ -67,8 +63,9 @@ $(document).ready(() => {
   ipcRenderer.on('chart:closed', () => {
     openBtt.show();
   });
-*/
+
 });
+
 function getRLParams() {
   let selectedTarget = $('#select-target').val();
   let rlData = {};
@@ -113,21 +110,14 @@ function updateFormFields(data) {
   let selectVars = $('#select-vars');
   selectVars.html('');
   let selectTarget = $('#select-target');
-  selectTarget.html('<option hidden disabled selected value> -- select an option --</option>');
 
   Object.keys(data).forEach((k) => {
     addVarCheckbox(k, selectVars);
 
-    let optionElem = $('<option></option>', {text: k, value: k});
-    selectTarget.append(optionElem);
+
   });
 }
 
 function addVarCheckbox(key, selectVars) {
-  let divElem = $('<div></div>', {class: 'form-check'});
-  let inputElem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'/*, checked: 'checked'*/});
-  let labelElem = $('<label></label>', {text: key});
-  divElem.append(inputElem);
-  divElem.append(labelElem);
-  selectVars.append(divElem);
+
 }
