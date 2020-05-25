@@ -12,7 +12,8 @@ module.exports = class CVSFile {
 
   read() {
     let raw = fs.readFileSync(this.path, {flag: 'r'});
-    let parsed = Papa.parse(raw.toString().replace(/\r?\n|\r/g, '\n'));
+    raw = raw.toString().replace(/\r?\n|\r/g, '\n');
+    let parsed = Papa.parse(raw);
 
     if(parsed.errors.length !== 0) {
       throw new Error('CSV file is not well formed');

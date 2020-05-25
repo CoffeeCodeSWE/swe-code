@@ -1,6 +1,6 @@
 
-const CVSFile = require('./CVSFile.js');
-const JSONFile = require('./JSONFile.js');
+const CVSFile = require('./csv-file.js');
+const JSONFile = require('./json-file.js');
 
 module.exports = class Model {
   constructor() {

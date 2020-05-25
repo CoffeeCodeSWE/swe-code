@@ -6,9 +6,9 @@ require('popper.js');
 let unpackedData = null;
 let oldData = null;
 
-const Controller = require('./js/Controller.js');
-const Model = require('./js/Model.js');
-const View = require('./js/View.js');
+const Controller = require('./js/controller.js');
+const Model = require('./js/model.js');
+const View = require('./js/view.js');
 
 
 $(document).ready(() => {

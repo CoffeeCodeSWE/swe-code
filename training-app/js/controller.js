@@ -1,4 +1,3 @@
-const {InvalidCSVFile} = require('./errors');
 const { getCurrentWindow } = require('electron');
 
 module.exports = class Controller {
@@ -12,6 +11,9 @@ module.exports = class Controller {
   }
 
   handleFileChanged = (path) => {
+
+    this.view.reset();
+
     try {
       this.model.readFromCVS(path);
       this.view.buildPage(this.model.json);
@@ -21,7 +23,7 @@ module.exports = class Controller {
     }
   }
 
-  handleFormSubmit = (data) => {
+  handleFormSubmit = (data, meta) => {
     let d = this.model.getDataByFilter(data);
   }
 
