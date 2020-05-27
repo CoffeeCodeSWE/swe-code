@@ -20,6 +20,18 @@ module.exports = class View {
     this.chartField.div = $('#div-chart');
 
     this.chart = null;
+    this.color = false;
+
+    $('#div-model input:radio').change(() => {
+      if (this.getModel() === 'rl') {
+        this.color = false;
+        this.chartField.tSelect.attr('disabled','disabled');
+      } else {
+        this.color = true;
+        this.chartField.tSelect.removeAttr('disabled');
+      }
+      this.updateChart();
+    });
 
     this.predCheck.change((e) => {
       if (e.target.checked) {
@@ -121,7 +133,7 @@ module.exports = class View {
   initVars(json) {
     Object.keys(json).forEach((k) => {
 
-      if(this.json[k].some(isNaN)) return;
+      if (this.json[k].some(isNaN)) return;
 
       this.addVar(k);
     });
@@ -230,7 +242,7 @@ module.exports = class View {
 
     Object.keys(json).forEach((k) => {
       this.addSelectTo(this.chartField.tSelect, k);
-      if(this.json[k].some(isNaN)) return;
+      if (this.json[k].some(isNaN)) return;
 
       this.addSelectTo(this.chartField.xSelect, k);
       this.addSelectTo(this.chartField.ySelect, k);
@@ -256,7 +268,7 @@ module.exports = class View {
 
   getChartTargetArray() {
     let t = this.chartField.tSelect.val();
-    return t !== 'None' ? this.json[t] : Array(this.json[Object.keys(this.json)[0]].length).fill(0);
+    return t !== 'None' && this.color ? this.json[t] : Array(this.json[Object.keys(this.json)[0]].length).fill(0);
   }
 
   setChartData(x, y, target, xLabel, yLabel) {
