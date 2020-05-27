@@ -23,8 +23,8 @@ module.exports = class Controller {
     }
   }
 
-  handleFormSubmit = (data, meta) => {
-    let d = this.model.getDataByFilter(data);
+  handleFormSubmit = (keys, meta) => {
+    let data = this.model.getDataByFilter(keys);
   }
 
   handleLoadPredictor = (path) => {
