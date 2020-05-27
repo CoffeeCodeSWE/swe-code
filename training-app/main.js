@@ -2,11 +2,9 @@ const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
 const helper = require('./js/helper');
 const MainWindow = require('./js/main-window');
-const ChartWindow = require('./js/chart-window');
 const {rlFromScratch} = require('./js/RL-calculate');
 
 let mainWindow = null;
-let chartWindow = null;
 
 function main() {
   mainWindow = new MainWindow();
@@ -14,20 +12,6 @@ function main() {
     app.exit();
   });
 }
-
-ipcMain.on('request-chart:update', (event, data) => {
-  if (chartWindow === null) {
-    chartWindow = new ChartWindow();
-    chartWindow.on('close', () => {
-      chartWindow = null;
-      mainWindow.webContents.send('chart:closed');
-    });
-  }
-  chartWindow.webContents.once('did-finish-load', () => {
-    chartWindow.webContents.send('chart:update', data);
-
-  });
-});
 
 app.whenReady().then(main);
 
@@ -62,7 +46,7 @@ ipcMain.on('model:rl', (event, args) => {
 });
 
 function save(finalData) {
-  dialog.showSaveDialog().then((filename) => {
+  dialog.showSaveDialog(mainWindow).then((filename) => {
     if (filename === undefined) {
       console.log('error');
       return;

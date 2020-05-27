@@ -6,12 +6,16 @@ require('popper.js');
 let unpackedData = null;
 let oldData = null;
 
+const Controller = require('./js/controller.js');
+const Model = require('./js/model.js');
+const View = require('./js/view.js');
+
+
 $(document).ready(() => {
-  let fileInput = $('#csv-file');
-  let predInput = $('#pred-file');
-  let predCheck = $('#have-pred');
+  const app = new Controller(new Model(), new View());
+
+/*
   fileInput.change((e) => {
-    let path = e.target.files[0].path;
     handleCSVFile(path);
   });
   predCheck.change(() => {
@@ -63,7 +67,7 @@ $(document).ready(() => {
   ipcRenderer.on('chart:closed', () => {
     openBtt.show();
   });
-
+*/
 });
 function getRLParams() {
   let selectedTarget = $('#select-target').val();
@@ -101,21 +105,6 @@ function handleCSVFile(path) {
 }
 
 function convertCSVtoJSON(data) {
-
-  let csvMat = Papa.parse(data.toString()).data;
-  let jsonData = {};
-  for (let i = 0; i < csvMat[0].length; i++) {
-    let key = csvMat[0][i];
-    jsonData[key] = [];
-    for (let k = 1; k < csvMat.length; k++) {
-      jsonData[key].push(csvMat[k][i]);
-    }
-  }
-  const orderedData = {};
-  Object.keys(jsonData).sort().forEach(function (key) {
-    orderedData[key] = jsonData[key];
-  });
-  return orderedData;
 }
 
 function updateFormFields(data) {
