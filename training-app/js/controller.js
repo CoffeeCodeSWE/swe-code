@@ -25,6 +25,8 @@ module.exports = class Controller {
 
   handleFormSubmit = (keys, meta) => {
     let data = this.model.getDataByFilter(keys);
+    console.log(data);
+    this.model.savePredictor(this.model.calculatePredictor(data, meta));
   }
 
   handleLoadPredictor = (path) => {

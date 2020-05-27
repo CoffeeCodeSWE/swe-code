@@ -1,9 +1,9 @@
-const svm = require('./svm')
-const ModelTrain = require('./modelTrain').model;
-class SVMadapter extends ModelTrain {
+const svm = require('./../vendor/svm');
+const ModelTrain = require('./model-train').model;
+module.exports = class SVMadapter extends ModelTrain {
   constructor() {
-      super();
-      this.svm = new svm.SVM();
+    super();
+    this.svm = new svm.SVM();
   }
 
   /*
@@ -45,14 +45,14 @@ class SVMadapter extends ModelTrain {
       val: [],
       lab: []
     };
-  
-    for(let i=0; i<matrix.rows; ++i) { 
+
+    for(let i=0; i<matrix.rows; ++i) {
       let values=[];
-  
+
       for(let j = 0; j < matrix.columns; ++j) {
         values.push(data.variables[Object.keys(data.variables)[j]][i]);
       }
-  
+
       let labels=[];
       labels.push(data.target[Object.keys(data.target)][i]);
       svmData.val.push(values);
@@ -64,4 +64,3 @@ class SVMadapter extends ModelTrain {
 
 }
 
-module.exports.svmadapter = SVMadapter;

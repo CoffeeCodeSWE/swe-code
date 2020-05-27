@@ -2,7 +2,6 @@ const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
 const helper = require('./js/helper');
 const MainWindow = require('./js/main-window');
-const {rlFromScratch} = require('./js/RL-calculate');
 
 let mainWindow = null;
 
@@ -28,21 +27,8 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('model:rl', (event, args) => {
-  let data = args[0];
-  let notes = args[1];
-  let oldData = args[2];
-
-  let reg = rlFromScratch(data);
-  let coefficients = reg.calculateCoefficients();
-
-
-  let output = helper.generateRLOutput(data, coefficients);
-  helper.addMeta(output, notes, oldData);
-
-  let finalData = (JSON.stringify(output, null, 2));
-
-  save(finalData);
+ipcMain.on('save', (event, args) => {
+  save(JSON.stringify(args));
 });
 
 function save(finalData) {

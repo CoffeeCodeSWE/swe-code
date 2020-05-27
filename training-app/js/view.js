@@ -114,8 +114,6 @@ module.exports = class View {
 
     Object.keys(json).forEach((k) => {
 
-      if(this.json[k].some(isNaN)) return;
-
       this.addTarget(k);
     });
   }

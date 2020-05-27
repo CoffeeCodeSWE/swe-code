@@ -1,6 +1,6 @@
-const Regression = require('./regression');
-const ModelTrain = require('./modelTrain').model;
-class RLadapter extends ModelTrain {
+const Regression = require('./../vendor/regression');
+const ModelTrain = require('./model-train').model;
+module.exports = class RLadapter extends ModelTrain {
   constructor(options) {
     super();
     let matrix = this.calculateMatrixDimensions(options);
@@ -15,7 +15,7 @@ class RLadapter extends ModelTrain {
   */
   executeTraining(data) {
     let matrix = this.calculateMatrixDimensions(data);
-    let reg = this.libAdaptation(data, matrix, this.regression); 
+    let reg = this.libAdaptation(data, matrix, this.regression);
     return reg.calculate();
   }
 
@@ -41,14 +41,14 @@ class RLadapter extends ModelTrain {
   * @return{object} of @class{Regression} reg : oggetto al quale sono stati aggiunti i parametri per il calcolo della RL
   */
   libAdaptation(data, matrix, reg) {
-    for(let i=0; i<matrix.rows; ++i) { 
+    for(let i=0; i<matrix.rows; ++i) {
       let A = [];
       A.push(1);
-  
+
       for(let j = 0; j < matrix.columns-1; ++j) {
         A.push(data.variables[Object.keys(data.variables)[j]][i]);
       }
-  
+
       let yNow =[];
       yNow.push(data.target[Object.keys(data.target)][i]);
       reg.push({x: A, y: yNow});
@@ -57,5 +57,3 @@ class RLadapter extends ModelTrain {
   }
 
 }
-
-module.exports.rladapter = RLadapter;

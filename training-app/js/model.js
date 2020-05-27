@@ -1,6 +1,9 @@
 
 const CVSFile = require('./csv-file.js');
 const JSONFile = require('./json-file.js');
+const {ipcRenderer} = require('electron');
+const RLadapter = require('./rl-adapter');
+const SVMadapter = require('./svm-adapter');
 
 module.exports = class Model {
   constructor() {
@@ -31,5 +34,28 @@ module.exports = class Model {
 
   get json() {
     return this.jsonFile.json;
+  }
+
+  calculatePredictor(data, meta) {
+    let adapter;
+    if(meta.model === 'rl')
+      adapter = new RLadapter(data);
+    else
+      adapter = new SVMadapter();
+
+    let pred = adapter.executeTraining(data);
+
+    let output = {};
+    output.type = meta.model;
+    output.predictor = pred;
+
+    output.notes = meta.notes;
+
+    return output;
+  }
+
+
+  savePredictor(pred){
+    ipcRenderer.send('save', pred);
   }
 };
