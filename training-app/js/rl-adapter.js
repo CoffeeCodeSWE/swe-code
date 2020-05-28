@@ -11,12 +11,13 @@ module.exports = class RLadapter extends ModelTrain {
   * executeTraining(data)
   * Effettua il training e calcola i coefficienti
   * @param{object} data : il file json parsato
-  * @return{object} reg : ritorna i coefficienti
+  * @return{object} reg : ritorna i coefficienti formattati secondo la notazione
   */
   executeTraining(data) {
+    console.log('Va beneee');
     let matrix = this.calculateMatrixDimensions(data);
     let reg = this.libAdaptation(data, matrix, this.regression);
-    return reg.calculate();
+    return this.generateRLOutput(data, reg.calculate());
   }
 
   /*
@@ -56,4 +57,32 @@ module.exports = class RLadapter extends ModelTrain {
     return reg;
   }
 
-}
+  /*
+  * generateRLOutput(data, coefficients)
+  * Adatta i coefficienti calcolati inserendo ulteriori informazioni come:
+  * il numero di tuple;
+  * i nomi delle variabili associati ai coefficienti.
+  * @param{object} data : il file json parsato
+  * @param{object} coefficients: i coefficienti calcolati
+  * @return{object} reg : contiene i dati formattati
+  */
+  generateRLOutput(data, coefficients) {
+    let keys = Object.keys(data.variables);
+    let predictor = {};
+
+    predictor.tuples = data.variables[keys[0]].length;
+    predictor.coefficents = {};
+
+    let i = 1;
+    keys.forEach((k) => {
+      predictor.coefficents[k] = coefficients[i][0];
+      i++;
+    });
+
+    predictor.intercept = coefficients[0][0];
+    predictor.target = Object.keys(data.target)[0];
+
+    return predictor;
+  }
+
+};

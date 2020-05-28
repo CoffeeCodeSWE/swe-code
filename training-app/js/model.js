@@ -1,4 +1,3 @@
-
 const CVSFile = require('./csv-file.js');
 const JSONFile = require('./json-file.js');
 const {ipcRenderer} = require('electron');
@@ -53,7 +52,6 @@ module.exports = class Model {
 
     return output;
   }
-
 
   savePredictor(pred){
     ipcRenderer.send('save', pred);

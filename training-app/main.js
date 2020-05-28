@@ -1,6 +1,5 @@
 const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
-const helper = require('./js/helper');
 const MainWindow = require('./js/main-window');
 
 let mainWindow = null;
