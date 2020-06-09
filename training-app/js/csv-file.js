@@ -2,14 +2,29 @@ const fs = require('fs');
 const Papa = require('papaparse');
 
 module.exports = class CVSFile {
+  
+  /*
+  * constructor(path)
+  * Costruisce l'oggetto per gestire il file CVS
+  * @param{object} path : percorso del file CVS
+  */
   constructor(path) {
     this.path = path;
   }
 
+  /*
+  * get parsedCSV()
+  * Ritorna i dati parsati
+  * @return{object} parsedData : dati parsati
+  */
   get parsedCSV() {
     return this.parsedData;
   }
 
+  /*
+  * read()
+  * Legge il file inserito
+  */
   read() {
     let raw = fs.readFileSync(this.path, {flag: 'r'});
     raw = raw.toString().replace(/\r?\n|\r/g, '\n');
