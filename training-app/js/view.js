@@ -25,7 +25,7 @@ module.exports = class View {
     $('#div-model input:radio').change(() => {
       if (this.getModel() === 'rl') {
         this.color = false;
-        this.chartField.tSelect.attr('disabled','disabled');
+        this.chartField.tSelect.attr('disabled', 'disabled');
       } else {
         this.color = true;
         this.chartField.tSelect.removeAttr('disabled');
@@ -93,6 +93,37 @@ module.exports = class View {
       handler(data, meta);
     });
   }
+
+  bindRlLine(handler) {
+    document.getElementById('data-chart').addEventListener('rl-line', (e) => {
+      e = e.detail;
+      console.log(e)
+      handler(e.keys, e.meta);
+    });
+  }
+
+  addRlLine(coeff, min, max) {
+    console.log(coeff.predictor)
+
+    let data = [{
+      x: min,
+      y: +coeff.predictor.coefficents[this.getChartX()] * min + coeff.predictor.intercept
+    }, {
+      x: max,
+      y: +coeff.predictor.coefficents[this.getChartX()] * max + coeff.predictor.intercept
+    }];
+    console.log(data)
+    this.chart.data.datasets.push({
+      data: data,
+      type: 'line',
+      fill:false,
+      borderColor: this.getRandomColor()
+    });
+
+    this.chart.update();
+  }
+
+
 
   buildPage(json) {
     this.json = json;
@@ -255,7 +286,7 @@ module.exports = class View {
     let xLabel = this.getChartX();
     let yLabel = this.getChartY();
     let t = this.getChartTargetArray();
-    this.setChartData(this.json[xLabel], this.json[yLabel], t, xLabel, yLabel);
+    this.setChartData(this.json[xLabel], this.json[yLabel], t, xLabel, yLabel, this.getModel());
   }
 
   getChartX() {
@@ -271,61 +302,81 @@ module.exports = class View {
     return t !== 'None' && this.color ? this.json[t] : Array(this.json[Object.keys(this.json)[0]].length).fill(0);
   }
 
-  setChartData(x, y, target, xLabel, yLabel) {
+  setChartData(x, y, target, xLabel, yLabel, model) {
     let datasets = this.createChartData(x, y, target);
 
-
     if (this.chart !== null) {
+
       this.chart.data.datasets = datasets;
       this.chart.options.scales.xAxes[0].scaleLabel.labelString = xLabel;
       this.chart.options.scales.yAxes[0].scaleLabel.labelString = yLabel;
       this.chart.options.legend.display = datasets.length > 1;
       this.chart.update();
+    } else {
 
-      return;
 
+      let ctx = document.getElementById('data-chart').getContext('2d');
+
+
+      Chart.defaults.scale.gridLines.drawOnChartArea = false;
+      this.chart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: datasets,
+        },
+        options: {
+          scales: {
+            xAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+
+                scaleLabel: {
+                  display: true,
+                  labelString: xLabel,
+                },
+                type: 'linear',
+                position: 'bottom',
+              },
+            ],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: yLabel,
+                },
+              },
+            ],
+          },
+        },
+      });
+      this.chart.options.legend.display = datasets.length > 1;
+
+    }
+    this.chart.update();
+
+    if (model.toLowerCase() === 'rl') {
+      let keys = {
+        variables: [xLabel],
+        target: [yLabel]
+      };
+
+      let meta = {
+        model: this.getModel().toLowerCase()
+      };
+
+      let event = new CustomEvent('rl-line', {detail: {keys: keys, meta: meta}});
+      console.log("v?");
+      document.getElementById('data-chart').dispatchEvent(event);
     }
 
 
-    let ctx = document.getElementById('data-chart').getContext('2d');
-    Chart.defaults.scale.gridLines.drawOnChartArea = false;
-    this.chart = new Chart(ctx, {
-      type: 'scatter',
-      data: {
-        datasets: datasets,
-      },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-
-              scaleLabel: {
-                display: true,
-                labelString: xLabel,
-              },
-              type: 'linear',
-              position: 'bottom',
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-              scaleLabel: {
-                display: true,
-                labelString: yLabel,
-              },
-            },
-          ],
-        },
-      },
-    });
-
-    this.chart.options.legend.display = datasets.length > 1;
-    this.chart.update();
   }
+
+
 };
+
