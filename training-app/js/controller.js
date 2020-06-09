@@ -1,6 +1,13 @@
 const { getCurrentWindow } = require('electron');
 
 module.exports = class Controller {
+
+  /*
+  * constructor(model, view)
+  * Costruttore del controller, crea i collegamenti con gli oggetti Model e View
+  * @param{object} model : oggetto di riferimento del Mdel
+  * @param{object} view : oggetto di riferimento dellaView
+  */
   constructor(model, view) {
     this.model = model;
     this.view = view;
@@ -10,6 +17,11 @@ module.exports = class Controller {
     this.view.bindLoadPredictor(this.handleLoadPredictor);
   }
 
+  /*
+  * handleFileChanged(path)
+  * Gestisce l'inserimento di un file
+  * @param{object} path : percorso del file inserito
+  */
   handleFileChanged = (path) => {
 
     this.view.reset();
@@ -23,12 +35,23 @@ module.exports = class Controller {
     }
   }
 
+  /*
+  * handleFormSubmit(keys, meta)
+  * Gestisce il calcolo delle predizioni
+  * @param{object} keys : chiavi selezionate dell'app
+  * @param{object} meta : 
+  */
   handleFormSubmit = (keys, meta) => {
     let data = this.model.getDataByFilter(keys);
     console.log(data);
     this.model.savePredictor(this.model.calculatePredictor(data, meta));
   }
 
+  /*
+  * handleLoadPredictor(path)
+  * Gestisce l'inserimento di un predittore
+  * @param{object} path : percorso del file predittore
+  */
   handleLoadPredictor = (path) => {
     this.model.loadPredictor(path);
 

@@ -3,6 +3,13 @@ const Swal = require('sweetalert2');
 require('chart.js');
 
 module.exports = class View {
+
+  /*
+  * constructor()
+  * Inizializza l'oggetto view con gli opportuni eventi
+  * @param{object} model : oggetto di riferimento del Mdel
+  * @param{object} view : oggetto di riferimento dellaView
+  */
   constructor() {
     this.fileInput = $('#csv-file');
     this.predInput = $('#pred-file');
@@ -46,6 +53,11 @@ module.exports = class View {
     this.chartField.tSelect.change(() => this.updateChart());
   }
 
+  /*
+  * bindFileChange(handler)
+  * Quando si verifica l'input di un file, viene registrato il path e fatto partire un handler(path) al controller
+  * @param{object} handler : tipo di handler
+  */
   bindFileChange(handler) {
     this.fileInput.change((e) => {
       let path = e.target.files[0].path;
@@ -53,6 +65,11 @@ module.exports = class View {
     });
   }
 
+  /*
+  * bindLoadPredictor(handler)
+  * Quando si verifica l'input di un file predittore, viene registrato il path e fatto partire un handler(path) al controller
+  * @param{object} handler : tipo di handler
+  */
   bindLoadPredictor(handler) {
     this.predInput.change((e) => {
       let path = e.target.files[0].path;
@@ -61,6 +78,11 @@ module.exports = class View {
 
   }
 
+  /*
+  * bindFormSubmit(handler)
+  * Quando l'utente clicca sul pulsante submit esso registra le opzioni scelte e attiva un handler(data, meta) del controller
+  * @param{object} handler : tipo di handler
+  */
   bindFormSubmit(handler) {
     this.trainingForm.submit((e) => {
       e.preventDefault();
@@ -94,6 +116,11 @@ module.exports = class View {
     });
   }
 
+  /*
+  * buildPage(json)
+  * Crea la pagina della view
+  * @param{object} json : file json
+  */
   buildPage(json) {
     this.json = json;
 
@@ -105,22 +132,43 @@ module.exports = class View {
     this.showChart();
   }
 
+  /*
+  * showContent()
+  * Mostra il contenuto della pagina
+  */
   showContent() {
     this.content.removeAttr('hidden');
   }
 
+  /*
+  * showChart()
+  * Mostra i grafici della pagina
+  */  
   showChart() {
     this.chartField.div.removeAttr('hidden');
   }
 
+  /*
+  * hideContent()
+  * Nasconde il contenuto della pagina
+  */   
   hideContent() {
     this.content.attr('hidden', 'hidden');
   }
 
+  /*
+  * hideChart()
+  * Nasconde i grafici della pagina
+  */
   hideChart() {
     this.chartField.div.attr('hidden', 'hidden');
   }
 
+  /*
+  * initSelectTarget(json)
+  * Verifica l'interimento della variabile target da parte dell'utente
+  * @param{object} json : file json
+  */
   initSelectTarget(json) {
     this.selectTarget.html('<option hidden disabled selected value> -- select an option --</option>');
 
@@ -130,6 +178,11 @@ module.exports = class View {
     });
   }
 
+  /*
+  * initVars(json)
+  * Definisce le variabili scelte dall'utente
+  * @param{object} json : file json
+  */
   initVars(json) {
     Object.keys(json).forEach((k) => {
 
@@ -139,6 +192,11 @@ module.exports = class View {
     });
   }
 
+  /*
+  * addVar(key)
+  * Aggiunge la variabile key al form
+  * @param{object} key : nome della variabile
+  */
   addVar(key) {
     let divElem = $('<div></div>', {class: 'form-check'});
     let inputElem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'});
@@ -148,19 +206,40 @@ module.exports = class View {
     this.selectVars.append(divElem);
   }
 
+  /*
+  * addSelectTo(field, key)
+  * Aggiunge una variabile selezionata alle opzioni
+  * @param{object} field : dove inserire l'opzione
+  * @param{object} key : nome della variabile
+  */
   addSelectTo(field, key) {
     let optionElem = $('<option></option>', {text: key, value: key});
     field.append(optionElem);
   }
 
+  /*
+  * addTarget(key)
+  * Aggiungere la variabile target
+  * @param{object} key : nome della variabile
+  */
   addTarget(key) {
     this.addSelectTo(this.selectTarget, key);
   }
 
+  /*
+  * getTarget()
+  * Ritorna la variable target
+  * @return{object} selectTarget.val() : variabile target
+  */  
   getTarget() {
     return this.selectTarget.val();
   }
 
+  /*
+  * getVars()
+  * Ritorna la variable selezionate
+  * @return{object} vars : variabili selezionate
+  */
   getVars() {
     let vars = [];
 
@@ -170,11 +249,21 @@ module.exports = class View {
     return vars;
   }
 
+  /*
+  * setNotes(notes)
+  * Setta le note inserite
+  * @param{object} notes : note scritte dall'utente nella form
+  */
   setNotes(notes) {
 
     this.notesInput.text(notes);
   }
 
+  /*
+  * showError(message)
+  * Mostra l'errore relativo al message
+  * @param{object} message : messaggio d'errore
+  */  
   showError(message) {
     Swal.fire({
       icon: 'error',
@@ -184,6 +273,10 @@ module.exports = class View {
   }
 
 
+  /*
+  * reset()
+  * Resetta la pagina della view
+  */ 
   reset() {
     this.hideContent();
     this.hideChart();
@@ -195,14 +288,29 @@ module.exports = class View {
     this.notesInput.val('');
   }
 
+  /*
+  * getNotes()
+  * Ritorna le note inserite
+  * @return{object} notesInput.val() : note inserite
+  */ 
   getNotes() {
     return this.notesInput.val();
   }
 
+  /*
+  * getModel()
+  * Ritorna il modello selezionato
+  * @return{object} model : modello selezionato
+  */  
   getModel() {
     return $('#div-model input:radio:checked').val().toLowerCase();
   }
 
+  /*
+  * getRandomColor()
+  * ritorna un colore casuale
+  * @return{object} color : colore casuale
+  */  
   getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -212,6 +320,11 @@ module.exports = class View {
     return color;
   }
 
+  /*
+  * createChartData(x, y, target)
+  * Crea il grafico nella view e ritorna i dati illustrati
+  * @return{object} datasets : dati illustrati
+  */ 
   createChartData(x, y, target) {
     let arrayUntilNow = [];
 
@@ -237,6 +350,11 @@ module.exports = class View {
     return datasets;
   }
 
+  /*
+  * initChartSelect(json)
+  * Inizializza il grafico con i dati selezionati
+  * @param{object} json : file json
+  */
   initChartSelect(json) {
     this.addSelectTo(this.chartField.tSelect, 'None');
 
@@ -251,6 +369,10 @@ module.exports = class View {
     this.chartField.ySelect.children(2).attr('selected', 'selected');
   }
 
+  /*
+  * updateChart()
+  * Aggiorna il grafico
+  */
   updateChart() {
     let xLabel = this.getChartX();
     let yLabel = this.getChartY();
@@ -258,19 +380,42 @@ module.exports = class View {
     this.setChartData(this.json[xLabel], this.json[yLabel], t, xLabel, yLabel);
   }
 
+  /*
+  * getChartX()
+  * Ritorna i dati dell'asse X
+  * @return{object} chartField.xSelect.val() : dati dell'asse X
+  */  
   getChartX() {
     return this.chartField.xSelect.val();
   }
 
+  /*
+  * getChartY()
+  * Ritorna i dati dell'asse Y
+  * @return{object} chartField.ySelect.val() : dati dell'asse Y
+  */   
   getChartY() {
     return this.chartField.ySelect.val();
   }
 
+  /*
+  * getChartTargetArray()
+  * Ritorna l'array con i dati della variabile target del grafico
+  * @return{object} Array : dati della variabile target
+  */   
   getChartTargetArray() {
     let t = this.chartField.tSelect.val();
     return t !== 'None' && this.color ? this.json[t] : Array(this.json[Object.keys(this.json)[0]].length).fill(0);
   }
 
+  /*
+  * setChartData(x, y, target, xLabel, yLabel)
+  * Imposta i dati nel grafico
+  * @param{object} x : dati sull'asse x
+  * @param{object} y : dati sull'asse Y
+  * @param{object} xLabel : nome sull'asse x
+  * @param{object} yLabel : nome sull'asse y
+  */ 
   setChartData(x, y, target, xLabel, yLabel) {
     let datasets = this.createChartData(x, y, target);
 
