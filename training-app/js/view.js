@@ -116,7 +116,6 @@ module.exports = class View {
     });
   }
 
-<<<<<<< HEAD
   bindRlLine(handler) {
     document.getElementById('data-chart').addEventListener('rl-line', (e) => {
       e = e.detail;
@@ -146,15 +145,11 @@ module.exports = class View {
     this.chart.update();
   }
 
-
-
-=======
   /*
   * buildPage(json)
   * Crea la pagina della view
   * @param{object} json : file json
   */
->>>>>>> f217873fc509dbf8a14f2b9b1b418d8443016de2
   buildPage(json) {
     this.json = json;
 
@@ -177,7 +172,7 @@ module.exports = class View {
   /*
   * showChart()
   * Mostra i grafici della pagina
-  */  
+  */
   showChart() {
     this.chartField.div.removeAttr('hidden');
   }
@@ -185,7 +180,7 @@ module.exports = class View {
   /*
   * hideContent()
   * Nasconde il contenuto della pagina
-  */   
+  */
   hideContent() {
     this.content.attr('hidden', 'hidden');
   }
@@ -264,7 +259,7 @@ module.exports = class View {
   * getTarget()
   * Ritorna la variable target
   * @return{object} selectTarget.val() : variabile target
-  */  
+  */
   getTarget() {
     return this.selectTarget.val();
   }
@@ -297,7 +292,7 @@ module.exports = class View {
   * showError(message)
   * Mostra l'errore relativo al message
   * @param{object} message : messaggio d'errore
-  */  
+  */
   showError(message) {
     Swal.fire({
       icon: 'error',
@@ -310,7 +305,7 @@ module.exports = class View {
   /*
   * reset()
   * Resetta la pagina della view
-  */ 
+  */
   reset() {
     this.hideContent();
     this.hideChart();
@@ -326,7 +321,7 @@ module.exports = class View {
   * getNotes()
   * Ritorna le note inserite
   * @return{object} notesInput.val() : note inserite
-  */ 
+  */
   getNotes() {
     return this.notesInput.val();
   }
@@ -335,7 +330,7 @@ module.exports = class View {
   * getModel()
   * Ritorna il modello selezionato
   * @return{object} model : modello selezionato
-  */  
+  */
   getModel() {
     return $('#div-model input:radio:checked').val().toLowerCase();
   }
@@ -344,7 +339,7 @@ module.exports = class View {
   * getRandomColor()
   * ritorna un colore casuale
   * @return{object} color : colore casuale
-  */  
+  */
   getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -358,7 +353,7 @@ module.exports = class View {
   * createChartData(x, y, target)
   * Crea il grafico nella view e ritorna i dati illustrati
   * @return{object} datasets : dati illustrati
-  */ 
+  */
   createChartData(x, y, target) {
     let arrayUntilNow = [];
 
@@ -418,7 +413,7 @@ module.exports = class View {
   * getChartX()
   * Ritorna i dati dell'asse X
   * @return{object} chartField.xSelect.val() : dati dell'asse X
-  */  
+  */
   getChartX() {
     return this.chartField.xSelect.val();
   }
@@ -427,7 +422,7 @@ module.exports = class View {
   * getChartY()
   * Ritorna i dati dell'asse Y
   * @return{object} chartField.ySelect.val() : dati dell'asse Y
-  */   
+  */
   getChartY() {
     return this.chartField.ySelect.val();
   }
@@ -436,15 +431,12 @@ module.exports = class View {
   * getChartTargetArray()
   * Ritorna l'array con i dati della variabile target del grafico
   * @return{object} Array : dati della variabile target
-  */   
+  */
   getChartTargetArray() {
     let t = this.chartField.tSelect.val();
     return t !== 'None' && this.color ? this.json[t] : Array(this.json[Object.keys(this.json)[0]].length).fill(0);
   }
 
-<<<<<<< HEAD
-  setChartData(x, y, target, xLabel, yLabel, model) {
-=======
   /*
   * setChartData(x, y, target, xLabel, yLabel)
   * Imposta i dati nel grafico
@@ -452,9 +444,9 @@ module.exports = class View {
   * @param{object} y : dati sull'asse Y
   * @param{object} xLabel : nome sull'asse x
   * @param{object} yLabel : nome sull'asse y
-  */ 
-  setChartData(x, y, target, xLabel, yLabel) {
->>>>>>> f217873fc509dbf8a14f2b9b1b418d8443016de2
+  */
+  setChartData(x, y, target, xLabel, yLabel, model) {
+
     let datasets = this.createChartData(x, y, target);
 
     if (this.chart !== null) {
