@@ -1,3 +1,12 @@
+/*
+* File: rlAdapter.test.js
+* Version: 
+* Date: 2020-07-03
+* Author: CoffeeCode <coffeecodeswe@gmail.com>
+* Description: File con i test riguardanti la classe adapter per Regressione lineare
+* Remarks:
+*/
+
 const RLAdapter = require('./../js/rl-adapter');
 
 let data ={

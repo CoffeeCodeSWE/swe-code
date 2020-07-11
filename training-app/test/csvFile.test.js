@@ -1,3 +1,12 @@
+/*
+* File: csvFile.test.js
+* Version: 
+* Date: 2020-07-03
+* Author: CoffeeCode <coffeecodeswe@gmail.com>
+* Description: File con i test riguardanti la classe CSVFile
+* Remarks:
+*/
+
 const CSV = require('./../js/csv-file');
 
 let csv=null;

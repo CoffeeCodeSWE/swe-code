@@ -1,3 +1,12 @@
+/*
+* File: view.test.js
+* Version: 
+* Date: 2020-06-10
+* Author: CoffeeCode <coffeecodeswe@gmail.com>
+* Description: File con i test riguardanti la view
+* Remarks:
+*/
+
 const View = require('./../js/view');
 
 test('test of showContent', () => {
