@@ -1,17 +1,26 @@
 
 const Model = require('./../js/model');
 
+let model;
+
+beforeAll(() => {
+  model = new Model();
+});
+
 test('notes', () => {
-  let model = new Model();
   model.loadPredictor("./test/p.json");
 
   expect(model.notes).toBe("notes");
 });
 
 test('construct', () => {
-  let model = new Model();
-
   expect(model).not.toBe(null);
+});
+
+test('test of readFromCVS', () => {
+  model.readFromCVS("./test/csvExample.CSV");
+
+  expect(model.cvsFile).not.toBe(null);
 });
 
 
