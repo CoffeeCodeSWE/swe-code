@@ -32,7 +32,6 @@ test('test of readFromCVS', () => {
 
 test('test of getDataByFilter', () => {
   let dat = model.getDataByFilter({variables: ["a","c"], target: "d"});
-  console.log(dat);
 
   expect(dat).toEqual({
     variables:{ a: ['1','6','2','6'], c:['4','5','1','1']},

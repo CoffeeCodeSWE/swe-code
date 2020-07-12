@@ -29,3 +29,23 @@ beforeAll(() => {
 test('costructor', () => {
   expect(rlAdapter).not.toBe(null);
 });
+
+test('test of executeTraining', () => {
+  let pred = rlAdapter.executeTraining(data);
+  console.log(pred);
+  expect(pred).toEqual({
+    tuples: 5,
+    coefficents: {
+      b: -0.42494629430720465,
+      c: -0.9805316863587556,
+      d: 0.40024167561761903,
+      e: -0.13829215896885105
+    },
+    intercept: 9.985365198711094,
+    target: 'y'
+  });
+});
+
+test('test of calculateMatrixDimensions', () => {
+  expect(rlAdapter.calculateMatrixDimensions(data)).toEqual({ columns: 5, rows: 5 });
+});
