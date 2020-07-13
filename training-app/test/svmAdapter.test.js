@@ -17,7 +17,7 @@ let data ={
       "e": [5, 10, 20, 40, 11]
   },
   "target": {
-      "y": [1, 2, 3, 5, 7]
+      "y": [1, -1, 1, 1, -1]
   }
 };
 
@@ -37,7 +37,6 @@ test('test of calculateMatrixDimensions', () => {
 
 // test('test of executeTraining', () => {
 //   let pred = svmAdapter.executeTraining(data);
-//   console.log(pred);
 //   expect(pred).toEqual({
 //     data: [
 //       [ 2, 8, 1, 5 ],
@@ -46,19 +45,40 @@ test('test of calculateMatrixDimensions', () => {
 //       [ 3, 1, 7, 40 ],
 //       [ 5, 3, 9, 11 ]
 //     ],
-//     labels: [ [ 1 ], [ 2 ], [ 3 ], [ 5 ], [ 7 ] ],
+//     labels: [ [ 1 ], [ -1 ], [ 1 ], [ 1 ], [ -1 ] ],
 //     kernelType: 'linear',
-//     kernel: [Function : linearKernel],
+//     kernel: ["linearKernel"],
 //     N: 5,
 //     D: 4,
-//     alpha: [ 0, -1.8831222317386977e+62, 0, 0, 0 ],
-//     b: 1.0507822053101932e+65,
+//     alpha: [
+//       0.1806383225601756,
+//       0.18389653292174823,
+//       0,
+//       0.033776076060298796,
+//       0.030517865698726172
+//     ],
+//     b: -2.432677659760009,
 //     usew_: true,
 //     w: [
-//       -1.5064977853909581e+63,
-//       -1.8831222317386978e+63,
-//       0,
-//       -3.7662444634773955e+63
+//       -0.4255705868793762,
+//       0.4678463948367838,
+//       0.1424100636937316,
+//       0.07957280330935962
 //     ]
 //   });
 // });
+
+test('test of splitData', () => {
+  let matrix = { columns: 4, rows: 5 };
+  let split = svmAdapter.splitData(data,matrix);
+  expect(split).toEqual({
+    val: [
+      [ 2, 8, 1, 5 ],
+      [ 4, 5, 0, 10 ],
+      [ 8, 9, 20, 20 ],
+      [ 3, 1, 7, 40 ],
+      [ 5, 3, 9, 11 ]
+    ],
+    lab: [ [ 1 ], [ -1 ], [ 1 ], [ 1 ], [ -1 ] ]
+  });
+});
