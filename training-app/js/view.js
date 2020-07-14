@@ -107,6 +107,11 @@ module.exports = class View {
         return;
       }
 
+      if (this.getModel().toLowerCase() === 'svm' && this.chartField.tSelect.has(this.getTarget()).length === 0) {
+        this.showError('SVM require only binary target');
+        return;
+      }
+
       let meta = {
         notes: this.getNotes(),
         model: this.getModel()
@@ -119,13 +124,13 @@ module.exports = class View {
   bindRlLine(handler) {
     document.getElementById('data-chart').addEventListener('rl-line', (e) => {
       e = e.detail;
-      console.log(e)
+      console.log(e);
       handler(e.keys, e.meta);
     });
   }
 
   addRlLine(coeff, min, max) {
-    console.log(coeff.predictor)
+    console.log(coeff.predictor);
 
     let data = [{
       x: min,
@@ -134,7 +139,7 @@ module.exports = class View {
       x: max,
       y: +coeff.predictor.coefficents[this.getChartX()] * max + coeff.predictor.intercept
     }];
-    console.log(data)
+    console.log(data);
     this.chart.data.datasets.push({
       data: data,
       type: 'line',
@@ -202,10 +207,16 @@ module.exports = class View {
     this.selectTarget.html('<option hidden disabled selected value> -- select an option --</option>');
 
     Object.keys(json).forEach((k) => {
-
       this.addTarget(k);
     });
   }
+
+  isBinary(elems) {
+    let binary = true;
+    elems.forEach((e) => binary = binary && (e === -1 || e === 1 ) );
+    return binary;
+  }
+
 
   /*
   * initVars(json)
@@ -229,9 +240,28 @@ module.exports = class View {
   addVar(key) {
     let divElem = $('<div></div>', {class: 'form-check'});
     let inputElem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'});
+    let logElem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'});
     let labelElem = $('<label></label>', {text: key, for: key});
+    let logLabel = $('<label></label>', {text: 'Apply log'});
     divElem.append(inputElem);
     divElem.append(labelElem);
+    divElem.append($('<br />'));
+
+    logElem.change((e) => {
+      if(e.target.checked) {
+        this.json['o-' + key] = this.json[key];
+        let newArr = [];
+        this.json[key].forEach( (e) => newArr.push(Math.log(e)));
+        this.json[key] = newArr;
+      } else {
+        this.json[key] = this.json['o-' + key];
+      }
+      this.updateChart();
+    });
+
+    divElem.append(logElem);
+    divElem.append(logLabel);
+    divElem.append($('<hr />'));
     this.selectVars.append(divElem);
   }
 
@@ -388,7 +418,7 @@ module.exports = class View {
     this.addSelectTo(this.chartField.tSelect, 'None');
 
     Object.keys(json).forEach((k) => {
-      this.addSelectTo(this.chartField.tSelect, k);
+      if (this.isBinary(json[k])) this.addSelectTo(this.chartField.tSelect, k);
       if (this.json[k].some(isNaN)) return;
 
       this.addSelectTo(this.chartField.xSelect, k);
@@ -499,6 +529,7 @@ module.exports = class View {
         },
       });
       this.chart.options.legend.display = datasets.length > 1;
+      this.chart.options.legend.position = 'right';
 
     }
     this.chart.update();
@@ -514,7 +545,7 @@ module.exports = class View {
       };
 
       let event = new CustomEvent('rl-line', {detail: {keys: keys, meta: meta}});
-      console.log("v?");
+      console.log('v?');
       document.getElementById('data-chart').dispatchEvent(event);
     }
 

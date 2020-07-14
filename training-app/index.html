@@ -8,8 +8,10 @@
 <body>
 
 <div class="container row" id="app">
+  <div class="container" style="text-align: center">
+    <h1>Training app</h1>
+  </div>
   <div class="col-md-4">
-    <h2>Training app</h2>
     <form id="training-form">
       <div class="form-group">
         <label for="csv-file">CSV data file: </label>
@@ -18,9 +20,9 @@
       </div>
       <div id="content" hidden>
         <div class="form-group">
-          <input type="checkbox" class="form-check-inline" id="have-pred"/>
-          <label for="have-pred" class="form-check-inline" for="have-pred">Modify a predictor</label>
-          <input type="file" class="form-control-file" id="pred-file" hidden>
+          <input type="checkbox" class="form-check-inline" id="have-pred" hidden />
+          <label for="have-pred" class="form-check-inline" for="have-pred">Load an existing JSON: (optional)</label>
+          <input type="file" class="form-control-file" id="pred-file">
         </div>
         <label for="div-model">Model: </label>
         <div class="form-group" id="div-model">
