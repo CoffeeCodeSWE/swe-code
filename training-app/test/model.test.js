@@ -39,4 +39,21 @@ test('test of getDataByFilter', () => {
   });
 });
 
+test('test of calculatePredictor', () => {
+  let dat = model.getDataByFilter({variables: ["a","c"], target: "d"});
+  let out = model.calculatePredictor(dat,{model : "rl" , notes: "prova"});
+
+  console.log(out);
+  expect(out).toEqual({
+    type: 'rl',
+    predictor: {
+      tuples: 4,
+      coefficents: { a: -0.15909090909090848, c: -1.2651515151515156 },
+      intercept: 7.825757575757575,
+      target: 'd'
+    },
+    notes: 'prova'
+  });
+});
+
 
