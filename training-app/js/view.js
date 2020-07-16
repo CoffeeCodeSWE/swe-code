@@ -15,6 +15,7 @@ module.exports = class View {
     this.predInput = $('#pred-file');
     this.predCheck = $('#have-pred');
     this.selectVars = $('#select-vars');
+    this.applyLog = $('#apply-log');
     this.selectTarget = $('#select-target');
     this.content = $('#content');
     this.trainingForm = $('#training-form');
@@ -239,13 +240,13 @@ module.exports = class View {
   */
   addVar(key) {
     let divElem = $('<div></div>', {class: 'form-check'});
+    let logDiv = $('<div></div>', {class: 'form-check vert'});
     let inputElem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'});
-    let logElem = $('<input />', {id: key, type: 'checkbox', class: 'form-check-input'});
+    let logElem = $('<input />', {type: 'checkbox', class: 'form-check-input'});
     let labelElem = $('<label></label>', {text: key, for: key});
-    let logLabel = $('<label></label>', {text: 'Apply log'});
+
     divElem.append(inputElem);
     divElem.append(labelElem);
-    divElem.append($('<br />'));
 
     logElem.change((e) => {
       if(e.target.checked) {
@@ -259,10 +260,19 @@ module.exports = class View {
       this.updateChart();
     });
 
-    divElem.append(logElem);
-    divElem.append(logLabel);
-    divElem.append($('<hr />'));
+    let swtLabel =  $('<label></label>', { class: 'switch', text: ' ' });
+    let spanElem =  $('<span></span>', { class: 'slider round' });
+
+    swtLabel.append(logElem);
+    swtLabel.append(spanElem);
+
+    logDiv.append(swtLabel);
+
+    divElem.append($("<hr />"));
+    logElem.append($("<hr />"));
+
     this.selectVars.append(divElem);
+    this.applyLog.append(logDiv);
   }
 
   /*
