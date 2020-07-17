@@ -13,5 +13,6 @@ script:
 - yarn install
 - cd training-app
 - yarn install
-- yarn test --coverage
+- yarn test --coverage --ci
+- cd ..
 - sonar-scanner 
