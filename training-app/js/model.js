@@ -66,6 +66,14 @@ module.exports = class Model {
     return this.jsonFile.json;
   }
 
+  set json(j) {
+    this.jsonFile.json = j;
+  }
+
+  setJson(j) {
+    this.jsonFile.json = j;
+  }
+
   /*
   * calculatePredictor(data, meta)
   * Calcola e definisce l'output delle predizioni di un determinato algoritmo

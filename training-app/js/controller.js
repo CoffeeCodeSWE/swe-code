@@ -43,6 +43,7 @@ module.exports = class Controller {
   * @param{object} meta : 
   */
   handleFormSubmit = (keys, meta) => {
+    this.model.json
     let data = this.model.getDataByFilter(keys);
     this.model.savePredictor(this.model.calculatePredictor(data, meta));
   }
@@ -54,12 +55,14 @@ module.exports = class Controller {
   */
   handleLoadPredictor = (path) => {
     this.model.loadPredictor(path);
-
+    //this.model.json = this.view.json;
     this.view.setNotes(this.model.notes);
   }
 
   handleRlLine = (keys, meta) => {
-    console.log(keys)
+    console.log(keys);
+    this.model.setJson(this.view.json);
+
     let data = this.model.getDataByFilter(keys);
     console.log(data);
     let coeff = this.model.calculatePredictor(data, meta);
