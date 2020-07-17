@@ -15,9 +15,14 @@ module.exports = class JSONFile {
   * Ritorna i dati del JSON
   * @return{object} data : dati del json
   */
-  get json() {
-    return this.data;
-  }
+ get json() {
+  return this.data;
+}
+
+set json(j) {
+  this.data = j;
+}
+
 
   /*
   * filterAndGroup(param)

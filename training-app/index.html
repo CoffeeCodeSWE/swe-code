@@ -4,12 +4,84 @@
   <meta charset="UTF-8">
   <title>Training app</title>
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+  <style>
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+hr {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.vert {
+  margin-bottom: 1.2em;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+  </style>
 </head>
 <body>
-
+  <div class="container" style="text-align: center">
+    <h1>Training app</h1>
+  </div>
 <div class="container row" id="app">
+
   <div class="col-md-4">
-    <h2>Training app</h2>
     <form id="training-form">
       <div class="form-group">
         <label for="csv-file">CSV data file: </label>
@@ -18,9 +90,9 @@
       </div>
       <div id="content" hidden>
         <div class="form-group">
-          <input type="checkbox" class="form-check-inline" id="have-pred"/>
-          <label for="have-pred" class="form-check-inline" for="have-pred">Modify a predictor</label>
-          <input type="file" class="form-control-file" id="pred-file" hidden>
+          <input type="checkbox" class="form-check-inline" id="have-pred" hidden />
+          <label for="have-pred" class="form-check-inline" for="have-pred">Load an existing JSON: (optional)</label>
+          <input type="file" class="form-control-file" id="pred-file">
         </div>
         <label for="div-model">Model: </label>
         <div class="form-group" id="div-model">
@@ -33,10 +105,22 @@
             <label class="form-check-label" for="svm">SVM</label>
           </div>
         </div>
+        <div class="row">
+          <div class="col-sm">
         <label for="select-vars">Select variables: </label>
         <div class="form-group" id="select-vars">
 
         </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="apply-log">Apply log: </label>
+            <div class="form-group" id="apply-log">
+    
+            </div>
+          </div>
+        </div>
+      </div>
         <div class="form-group">
           <label for="select-target">Select target:</label>
           <select class="custom-select" id="select-target">
