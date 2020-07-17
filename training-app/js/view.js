@@ -252,7 +252,7 @@ module.exports = class View {
       if(e.target.checked) {
         this.json['o-' + key] = this.json[key];
         let newArr = [];
-        this.json[key].forEach( (e) => newArr.push(Math.log(e)));
+        this.json[key].forEach( (el) => newArr.push(Math.log(el)));
         this.json[key] = newArr;
       } else {
         this.json[key] = this.json['o-' + key];
