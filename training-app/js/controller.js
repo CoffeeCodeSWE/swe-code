@@ -43,7 +43,7 @@ module.exports = class Controller {
   * @param{object} meta : 
   */
   handleFormSubmit = (keys, meta) => {
-    this.model.json
+    
     let data = this.model.getDataByFilter(keys);
     this.model.savePredictor(this.model.calculatePredictor(data, meta));
   }
