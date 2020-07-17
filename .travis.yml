@@ -12,5 +12,6 @@ addons:
 script:
 - yarn install
 - cd training-app
+- yanr install
 - yarn test --coverage
 - sonar-scanner 
